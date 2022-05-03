@@ -10,7 +10,8 @@ var arrivalSchema = Schema( {
   terminal: String,
   airline: String,
   flightNumber: Number,
-  arrivalTime: String
+  arrivalTime: String,
+  completed: Boolean
 } );
 
 module.exports = mongoose.model( 'Arrival', arrivalSchema);

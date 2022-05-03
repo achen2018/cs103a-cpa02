@@ -8,11 +8,10 @@ var departureSchema = Schema( {
   date: Date,
   numberOfBags: Number,
   leaveCampus: String,
-  location: String,
   terminal: String,
   airline: String,
-  flightNumber: Number,
-  flightTime: String
+  flightTime: String,
+  completed: Boolean
 } );
 
 module.exports = mongoose.model( 'Departure', departureSchema);
