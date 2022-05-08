@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
 var requestSchema = Schema( {
+  userId: ObjectId,
   name: String,
   pickUp: String,
   dropOff: String,

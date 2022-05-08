@@ -34,8 +34,7 @@ const courses = require('./public/data/courses20-21.json')
 // *********************************************************** //
 
 const mongoose = require( 'mongoose' );
-const mongodb_URI = 'mongodb://localhost:27017/cs103a_todo'
-//const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/AndrewChenCPA02retryWrites=true&w=majority'
 
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
 // fix deprecation warnings
@@ -145,11 +144,22 @@ app.post('/contact',
     }
   });
 
-app.get("/request", 
-  (req, res, next) => {
-        res.render("request");
+app.get('/request',
+  isLoggedIn,
+  async(req,res,next) => {
+    try {
+      try{
+        let name = res.locals.name;
+        let pickUp = res.locals.pickUp;
+        let dropOff = res.locals.dropOff;
+        let requests = await Request.find({name:name,pickUp:pickUp,dropOff:dropOff}); // lookup the user's rider requests to complete
+        res.locals.requests = requests;  //make the items available in the view
+        res.render("request");  // render to the Requests page
+      } catch (e){
+        next(e);
       }
-);
+    }
+  })
 
 app.post('/request/add',
   isLoggedIn,
