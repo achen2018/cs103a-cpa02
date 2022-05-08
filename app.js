@@ -161,7 +161,7 @@ app.post('/request/add',
       let message = req.body.message
       let newRequest = new Request({name:name, pickUp:pickUp, dropOff:dropOff, message:message})
       await newRequest.save()
-      res.redirect('/request')
+      res.redirect('/thanks')
     } catch (e) {
       next(e)
     }

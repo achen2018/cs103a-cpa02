@@ -5,6 +5,7 @@ const ObjectId = Schema.Types.ObjectId;
 
 var contactSchema = Schema( {
   name: String,
+  email: String,
   message: String
 } );
 
