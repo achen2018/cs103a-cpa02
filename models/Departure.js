@@ -5,9 +5,10 @@ const ObjectId = Schema.Types.ObjectId;
 
 var departureSchema = Schema( {
   name: String,
+  email: String,
   date: Date,
   numberOfBags: Number,
-  leaveCampus: String,
+  whenToLeave: String,
   terminal: String,
   airline: String,
   flightTime: String,

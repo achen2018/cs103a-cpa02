@@ -20,6 +20,8 @@ const axios = require("axios")
 // *********************************************************** //
 const ToDoItem = require("./models/ToDoItem")
 const Course = require('./models/Course')
+const Request = require("./models/Request")
+const Contact=require("./models/Contact");
 
 // *********************************************************** //
 //  Loading JSON datasets
@@ -121,6 +123,51 @@ app.get("/sandbox",
       }
 );
 
+app.get("/contact", 
+  isLoggedIn,
+  async (req, res, next) => {
+        res.render("contact");
+      }
+);
+
+app.post('/contact',
+  async(req,res,next) => {
+    try {
+      let name = req.body.name
+      let email = req.body.email
+      let message = req.body.message
+      let newContact = new Contact({name:name, email:email, message:message})
+      await newContact.save()
+      res.redirect('/thanks')
+    }
+    catch(e) {
+      next(e)
+    }
+  });
+
+app.get("/request", 
+  (req, res, next) => {
+        res.render("request");
+      }
+);
+
+app.post('/request/add',
+  isLoggedIn,
+  async (req,res,next) => {
+    try{
+      let name = req.body.name
+      let pickUp = req.body.pickUp
+      let dropOff = req.body.dropOff
+      let message = req.body.message
+      let newRequest = new Request({name:name, pickUp:pickUp, dropOff:dropOff, message:message})
+      await newRequest.save()
+      res.redirect('/request')
+    } catch (e) {
+      next(e)
+    }
+  }
+  )
+
 /*
     ToDoList routes
 */
@@ -206,17 +253,6 @@ app.get("/exam10c/a/b/c",
     }
   })
 
-app.post('/exam10c/add',
-  async(req,res,next) => {
-    try {
-      const {a,b,c}= req.body;
-      const avg = (a+b+c)/3;
-      res.redirect('/exam10c')
-    } catch (e) {
-      next(e)
-    }
-  }
-)
 
 // this route load in the courses into the database
 // or updates the courses if it is a new database

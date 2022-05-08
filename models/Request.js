@@ -5,8 +5,10 @@ const ObjectId = Schema.Types.ObjectId;
 
 var requestSchema = Schema( {
   name: String,
-  requestDate: Date,
-  message: String
+  pickUp: String,
+  dropOff: String,
+  message: String,
+  completed: Boolean
 } );
 
 module.exports = mongoose.model( 'Request', requestSchema);
