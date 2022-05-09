@@ -1,0 +1,12 @@
+<div class="bg-light m-5 p-2 border border-primary border-2">
+    <div class="">
+        <span>
+            <%= recipe.item %> 
+            <%= recipe.category %> 
+            <%= recipe.ingredients %> 
+            <%= recipe.totalCookTime %> 
+            <%= recipe.instructions %> 
+        </span>
+    </div>
+</div>
+<div><a href="/addRecipe/<%= recipe['_id'] %>">(add Recipe)</a></div>

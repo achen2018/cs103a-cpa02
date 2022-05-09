@@ -1,7 +1,7 @@
 
 
     <div class="jumbotron">
-        <h1>CPA02: Personal Web App </h1>
+        <h1>Recipe Rideshare </h1>
         <p></p>
     </div>
 
@@ -13,9 +13,10 @@
         the courses and create your schedule.
     </p>
 
-    <img src="images/food_platter.jpg" alt="">
-    
-    <% if (true || loggedIn) {%>  
+    <img src="images/food_platter.jpg" alt=""
+    height="750" width="500">
+    <br>
+    <% if (loggedIn) {%>  
         <form method="post" action="/recipe/byCategory">
             Show Recipes by Category: 
               <input type="text" name="category" 

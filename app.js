@@ -129,6 +129,17 @@ app.get("/contact",
       }
 );
 
+app.get("/showContacts",
+  async(req,res,next) => {
+    try {
+      res.locals.contacts = await Contact.find({})
+      res.render('showContacts')
+    } catch(e) {
+      next(e);
+    }
+  }
+);
+
 app.post('/contact',
   async(req,res,next) => {
     try {
@@ -142,7 +153,8 @@ app.post('/contact',
     catch(e) {
       next(e)
     }
-  });
+  }
+);
 
 app.get('/viewRequest',
   isLoggedIn,
@@ -155,7 +167,8 @@ app.get('/viewRequest',
     } catch (e) {
       next(e);
     }
-  })
+  }
+);
 
 app.post('/request/add',
   isLoggedIn,
@@ -170,7 +183,35 @@ app.post('/request/add',
     } catch (e) {
       next(e)
     }
-  })
+  }
+);
+
+app.get('/recipe/show/:recipeId',
+  async(req,res,next) => {
+    const {recipeId} = req.params;
+    const recipe = await Recipe.findOne({_id:recipeId})
+    res.locals.recipe = recipe
+    res.render('recipe')
+  }
+)
+
+app.get('/recipe/byCategory',
+  async(req,res,next) => {
+    const category = req.params.category;
+    const recipes = await Recipe.find({category:category})
+    res.locals.recipes = recipes
+    res.render('recipe')
+  }
+)
+
+app.get('/recipe/byCookTime',
+  async(req,res,next) => {
+    const cookTime = res.params.totalCookTime;
+    const recipes = await Recipe.find({totalCookTime:cookTime})
+    res.locals.recipes = recipes
+    res.render('recipe')
+  }
+)
 
 app.get("/todo/delete/:requestId",
   isLoggedin,
@@ -182,7 +223,8 @@ app.get("/todo/delete/:requestId",
     } catch (e){
       next(e);
     }
-  })
+  }
+)
 
 /*
     ToDoList routes
@@ -322,6 +364,7 @@ app.set("port", port);
 
 // and now we startup the server listening on that port
 const http = require("http");
+const Recipe = require("./models/Recipe");
 const server = http.createServer(app);
 
 server.listen(port);
