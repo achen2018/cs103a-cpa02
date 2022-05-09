@@ -33,8 +33,10 @@ const courses = require('./public/data/courses20-21.json')
 //  Connecting to the database
 // *********************************************************** //
 
+
 const mongoose = require( 'mongoose' );
-const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/AndrewChenCPA02retryWrites=true&w=majority'
+const mongodb_URI = process.env.mongodb_URI
+//const mongodb_URI = 'mongodb+srv://cs_sj:BrandeisSpr22@cluster0.kgugl.mongodb.net/AndrewChenCPA02retryWrites=true&w=majority'
 
 mongoose.connect( mongodb_URI, { useNewUrlParser: true, useUnifiedTopology: true } );
 // fix deprecation warnings
