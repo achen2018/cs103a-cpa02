@@ -20,8 +20,8 @@ const axios = require("axios")
 // *********************************************************** //
 const ToDoItem = require("./models/ToDoItem")
 const Course = require('./models/Course')
-const Request = require("./models/Request")
-const Contact=require("./models/Contact");
+const Request = require('./models/Request')
+const Contact=require('./models/Contact');
 
 // *********************************************************** //
 //  Loading JSON datasets
@@ -144,20 +144,16 @@ app.post('/contact',
     }
   });
 
-app.get('/request',
+app.get('/viewRequest',
   isLoggedIn,
-  async(req,res,next) => {
+  async (req,res,next) => {
     try {
-      try{
-        let name = res.locals.name;
-        let pickUp = res.locals.pickUp;
-        let dropOff = res.locals.dropOff;
-        let requests = await Request.find({name:name,pickUp:pickUp,dropOff:dropOff}); // lookup the user's rider requests to complete
-        res.locals.requests = requests;  //make the items available in the view
-        res.render("request");  // render to the Requests page
-      } catch (e){
-        next(e);
-      }
+      let userId = res.locals.user._id;
+      let requests = await Request.find({userId:userId});
+      res.locals.requests = requests; // makes items available
+      res.render("viewRequest"); // renders viewRequest page
+    } catch (e) {
+      next(e);
     }
   })
 
@@ -165,18 +161,28 @@ app.post('/request/add',
   isLoggedIn,
   async (req,res,next) => {
     try{
-      let name = req.body.name
-      let pickUp = req.body.pickUp
-      let dropOff = req.body.dropOff
-      let message = req.body.message
-      let newRequest = new Request({name:name, pickUp:pickUp, dropOff:dropOff, message:message})
-      await newRequest.save()
-      res.redirect('/thanks')
+      const {name,pickUp,dropOff,message} = req.body;
+      const userId = res.locals.user._id;
+      let info = {name,pickUp,dropOff,message,userId}
+      let request = new Request(info)
+      await request.save()
+      res.redirect('/request')
     } catch (e) {
       next(e)
     }
-  }
-  )
+  })
+
+app.get("/todo/delete/:requestId",
+  isLoggedin,
+  async (req,res,next) => {
+    try {
+      const requestId=req.params.requestId;
+      await Request.deleteOne({_id:requestId})
+      res.redirect('/request')
+    } catch (e){
+      next(e);
+    }
+  })
 
 /*
     ToDoList routes

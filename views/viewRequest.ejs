@@ -1,0 +1,19 @@
+<div class="bg-light border border-primary p-3 rounded m-3">
+    <h1 class="display-4 text-center">Rider Request</h1>
+    <p class="lead text-center"><%= requests.length %>  requests for <%= user['username'] %> to complete</p>
+</div>
+<ol>
+    <% for (request of requests){%>
+        <li class="m-2">
+            <b><%= request.name%>:</b><i><%= request.pickUp %></i>
+            <i><%= request.dropOff %></i><i><%= request.message %></i>
+            <% if (request.completed) {%>
+                <a href="/request/completed/false/ <%=request._id%>"> Done</a>
+            <% } else {%>
+                <a href="/request/completed/true/<%= request._id%>"> In Progress </a>
+            <% } %>
+            <br>
+            <a href="/request/delete/ <%=request._id%>"> (delete)</a>
+        </li>
+    <% } %>
+</ol>
